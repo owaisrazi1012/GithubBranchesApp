@@ -1,0 +1,26 @@
+---
+- name: Deploy GithubBranchesApp service
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: Stop GithubBranchesApp Service
+      service:
+        name: GithubBranchesApp
+        state: stopped
+
+    - name: Remove existing GithubBranchesApp folder
+      command: chdir=/home/naptadminvm2/napt-setup rm -rf GithubBranchesApp
+
+    - name: Extract GithubBranchesApp.tgz
+      ansible.builtin.unarchive:
+        src: /var/lib/jenkins/workspace/GithubBranchesApp.tgz
+        dest: /home/naptadminvm2/napt-setup
+
+    - name: Run mvn clean install
+      command: chdir=/home/naptadminvm2/napt-setup/GithubBranchesApp mvn clean install
+
+    - name: Start GithubBranchesApp Service
+      service:
+        name: GithubBranchesApp
+        state: started
