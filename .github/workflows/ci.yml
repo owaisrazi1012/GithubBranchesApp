@@ -33,7 +33,7 @@ jobs:
           echo "Check Two"
           sed -i s/$/qa/ src/main/resources/application.properties 
           echo "Check Two"
-          mvn clean install -DSkipTest
+          mvn clean install -DskipTests
 
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
