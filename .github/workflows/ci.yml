@@ -34,7 +34,13 @@ jobs:
           sed -i s/$/qa/ src/main/resources/application.properties 
           echo "Check Two"
           mvn clean install -DskipTests
-
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      name: Build & push Docker image
+      with:
+       image: owaisrazi/demo-app:tagname
+       registry: docker.io
+       username: ${{ secrets.DOCKER_USERNAME }}
+       password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
